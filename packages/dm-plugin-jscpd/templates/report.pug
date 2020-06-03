@@ -1,0 +1,48 @@
+extends layout
+
+block content
+  .controls
+    p='重复总行数：' + total.lines + ';'
+    p='重复总字符大小（去除空格和换行）：' + prettyBytes(total.chars) + ';'
+    .pure-u
+      button.pure-button(onclick="collapseExpandAll()") Collapse/Expand All
+
+  .clones.collapsed
+    if formats
+      each mode, name in formats
+        +mode(name, mode)
+
+mixin mode(name, mode)
+  a(name=name)
+  h1.content-subhead= name
+  .mode-stats
+    p
+      ='重复总行数：' + statistics.lines[name] + '; 重复总字符大小(去除空格和换行):' + prettyBytes(statistics.chars[name])
+      a.top(href="#top")= "[Top ↑↑↑]"
+  - var num = 1
+  each clone in clones
+    if clone.format === name
+      section.clone
+        header
+          span.num=num++
+          button.pure-button.expand +
+          button.pure-button.collapse -
+          .clone-title
+            != clone.duplicationA.title + '<br/>'
+            = clone.duplicationB.title
+        .clone-description
+          +code(clone)
+
+mixin code(clone)
+  pre
+    +meta(clone)
+    code(class='language-' + clone.format)= clone.duplicationA.fragment
+    span.cl
+
+mixin meta(clone)
+  - var generatedLine = generateLine(clone, 0, '')
+  each col, colIndex in generatedLine
+    span.meta
+      each line, index in clone.duplicationA.fragment.split("\n")
+        span= generateLine(clone, index, '')[colIndex] || " "
+

@@ -1,0 +1,35 @@
+#!/usr/bin/env node
+
+/* eslint-disable @typescript-eslint/no-var-requires */
+
+const program = require('commander')
+const { upload } = require('../dist/index')
+const { parseOpts } = require('../dist/impl/options.impl')
+const { Context } = require('../dist/impl/context.impl')
+
+// dm upload
+program
+  .name('dm upload')
+  .option('-a, --app <value>', '指定小程序')
+  .option('-t, --type <value>', '指定类型：xcx、h5、react')
+  .option('-d,--output.upload <value>', '指定生成文件目录')
+  .option('--desc <value>', '上传代码时的备注')
+  .option('-v, --version <value>', '版本号')
+  .option('-i, --info-output <value>', '上传后的额外信息路径')
+  .option('--cwd <value>', '执行命令目录')
+  .option('--debug', '输出debug信息')
+
+const cwdIdx = process.argv.findIndex(val => val === '--cwd');
+const cwdValueIdx = cwdIdx === -1 ? -1 : cwdIdx + 1;
+// 动态注册命令参数
+Context.getPlugins(process.argv[cwdValueIdx] || process.cwd(), (Clazz) => {
+  if (Clazz.cmdHooks && Clazz.cmdHooks.preview) {
+    Clazz.cmdHooks.preview.forEach(args => {
+      program.option(...args)
+    });
+  }
+})
+
+program.parse(process.argv);
+
+upload(parseOpts(program))

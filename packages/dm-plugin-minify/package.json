@@ -1,0 +1,26 @@
+{
+  "name": "@wecteam/dm-plugin-minify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "npm run clear && tsc",
+    "watch": "tsc -w --sourceMap",
+    "clear": "rm -rf ./dist",
+    "test": "echo \"Warn: no test specified\" && exit 0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies":{
+    "@wecteam/dm-cli":"1.0.0"
+  },
+  "devDependencies":{
+    "@wecteam/dm-cli":"1.0.0"
+  },
+  "dependencies": {
+    "gulp-imagemin": "^4.1.0",
+    "gulp-strip-comments": "^2.5.2",
+    "gulp-uglify-es": "^1.0.1"
+  }
+}

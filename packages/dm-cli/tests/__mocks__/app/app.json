@@ -1,0 +1,27 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/logs/logs"
+  ],
+  "subPackages": [{
+      "root": "pages/sub1",
+      "pages": ["index/index"]
+    },
+    {
+      "root": "pages/sub2",
+      "pages": ["index/index"]
+    },
+    {
+      "root": "pages/sub3",
+      "pages": ["index/index"]
+    }
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

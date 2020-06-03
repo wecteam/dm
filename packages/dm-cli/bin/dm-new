@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+
+/* eslint-disable @typescript-eslint/no-var-requires */
+
+const program = require('commander')
+const { create } = require('../dist/index')
+const { parseOpts } = require('../dist/impl/options.impl')
+const { Context } = require('../dist/impl/context.impl')
+
+// dm new
+program
+  .name('dm new')
+  .option('-t, --type <value>', '新建类型(page|component)')
+  .option('-n, --name <value>', '名称')
+  .option('--cwd <value>', '执行命令目录')
+  .option('--debug', '输出debug信息')
+
+const cwdIdx = process.argv.findIndex(val => val === '--cwd');
+const cwdValueIdx = cwdIdx === -1 ? -1 : cwdIdx + 1;
+// 动态注册命令参数
+Context.getPlugins(process.argv[cwdValueIdx] || process.cwd(), (Clazz) => {
+  if (Clazz.cmdHooks && Clazz.cmdHooks.new) {
+    Clazz.cmdHooks.new.forEach(args => {
+      program.option(...args)
+    });
+  }
+})
+
+program.parse(process.argv);
+
+create(parseOpts(program))

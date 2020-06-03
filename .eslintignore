@@ -1,0 +1,4 @@
+node_modules/
+__mocks__/
+templates/
+dist/

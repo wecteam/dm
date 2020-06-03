@@ -1,0 +1,30 @@
+/**app.css**/
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200rpx 0;
+  box-sizing: border-box;
+} 
+
+
+
+/* dm-cli if:app=='b' */
+.xcxb{
+  font-size: 10px;
+}
+/* dm-cli else */
+.xcxa{
+  font-size: 12px;
+}
+/* /dm-cli  */
+
+/* dm-cli if:type=='h5' */
+.h5{
+  font-size: 14px;
+}
+/* /dm-cli  */
+
+

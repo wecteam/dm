@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+
+/* eslint-disable @typescript-eslint/no-var-requires */
+
+const program = require('commander')
+const { config } = require('../dist/index')
+
+program
+  .name('dm config')
+  .on('--help', () => {
+    console.log('')
+    console.log('使用方式:')
+    console.log('  $ dm config set <key> <value>')
+    console.log('  $ dm config get [key]')
+    console.log('  $ dm config delete <key>')
+    console.log('  $ dm config list')
+  })
+  .parse(process.argv);
+
+config(program.args)

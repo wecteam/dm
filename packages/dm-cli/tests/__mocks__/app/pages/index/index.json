@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "navbar":"../../components/nav-bar-a/index"
+  },
+  "usingComponents.b": {
+    "navbar-b":"../../components/nav-bar-b/index"
+  }
+}

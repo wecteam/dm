@@ -1,0 +1,14 @@
+node_modules/
+.DS_Store
+.idea
+.vscode
+.project
+coverage
+tsconfig.tsbuildinfo
+.history
+dist/
+
+miniprogram_npm/
+dm-build/
+dm-build-*/
+*.log

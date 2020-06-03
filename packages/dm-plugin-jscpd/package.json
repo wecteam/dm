@@ -1,0 +1,23 @@
+{
+  "name": "@wecteam/dm-plugin-jscpd",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Warn: no test specified\" && exit 0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies":{
+    "@wecteam/dm-cli":"1.0.0"
+  },
+  "devDependencies":{
+    "@wecteam/dm-cli":"1.0.0"
+  },
+  "dependencies": {
+    "jscpd": "^2.0.15",
+    "pretty-bytes": "^5.3.0",
+    "pug": "^2.0.4"
+  }
+}

@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+
+/* eslint-disable @typescript-eslint/no-var-requires */
+
+const program = require('commander')
+const { preview } = require('../dist/index')
+const { parseOpts } = require('../dist/impl/options.impl')
+const { Context } = require('../dist/impl/context.impl')
+
+// dm preivew
+program
+  .name('dm preview')
+  .option('-a, --app <value>', '指定小程序')
+  .option('-t, --type <value>', '指定类型：xcx、h5、react')
+  .option('-p, --page <value>', '指定编译单个页面')
+  .option('-f, --qr-format <value>', '二维码格式:terminal|image|base64')
+  .option('-o, --qr-output <value>', '二维码输出路径')
+  .option('-i, --info-output <value>', '预览后的额外信息路径')
+  .option('-q, --compile-condition <value>', '自定义编译条件')
+  .option('-d, --output.preview <value>', '指定生成文件目录')
+  .option('--cwd <value>', '执行命令目录')
+  .option('--debug', '输出debug信息')
+
+const cwdIdx = process.argv.findIndex(val => val === '--cwd');
+const cwdValueIdx = cwdIdx === -1 ? -1 : cwdIdx + 1;
+// 动态注册命令参数
+Context.getPlugins(process.argv[cwdValueIdx] || process.cwd(), (Clazz) => {
+  if (Clazz.cmdHooks && Clazz.cmdHooks.preview) {
+    Clazz.cmdHooks.preview.forEach(args => {
+      program.option(...args)
+    });
+  }
+})
+
+program.parse(process.argv);
+
+preview(parseOpts(program))

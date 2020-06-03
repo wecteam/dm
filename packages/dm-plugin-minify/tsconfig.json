@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",                       /* 编译目标ES版本 Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019' or 'ESNEXT'. */
+    "module": "commonjs",                     /* 编译目标模块系统 Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
+    "allowJs": true,                          /* 允许编译.js、.jsx文件 Allow javascript files to be compiled. */
+    "declaration": true,                      /* 编译时创建声明文件 Generates corresponding '.d.ts' file. */
+    "outDir": "dist",                         /* Redirect output structure to the directory. */
+    "rootDir": "src",                         /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    "importHelpers": true,                    /* 从tslib导入辅助工具函数(如__importDefault) Import emit helpers from 'tslib'. */
+    "strict": true,                           /* 严格模式开关 Enable all strict type-checking options. */
+    "noUnusedLocals": true,                   /* 未使用局部变量报错 Report errors on unused locals. */
+    "noUnusedParameters": true,               /* 未使用参数报错 Report errors on unused parameters. */
+    "noImplicitReturns": true,                /* 有代码路径没有返回值时报错 Report error when not all code paths in function return a value. */
+    "noFallthroughCasesInSwitch": true,       /* 报告switch语句的fallthrough错误。（即，不允许switch的case语句贯穿） Report errors for fallthrough cases in switch statement. */
+    "moduleResolution": "node",               /* 模块解析策略 Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
+    "typeRoots": [                            /* 要包含的类型声明文件路径列表 List of folders to include type definitions from. */
+      "./typings",
+      "./node_modules/@types"
+      ],                      
+    "allowSyntheticDefaultImports": false,    /* 允许从没有设置默认导出的模块中默认导入 Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
+    "esModuleInterop": false                  /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
+  },
+  "include": [
+    "src/**/*.ts",
+    "typings/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules/**"
+  ],
+}

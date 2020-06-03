@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`dm preview 无dist目录 源项目已存在 project.config.json 文件 1`] = `""`;
+
+exports[`dm preview 无dist目录 源项目无 project.config.json 文件 1`] = `""`;
+
+exports[`dm preview 有dist目录 允许重新打包并覆盖原dist目录 1`] = `""`;
+
+exports[`dm preview 有dist目录 拒绝重新打包并覆盖原dist目录 1`] = `""`;
