@@ -1,5 +1,6 @@
 import { Context } from '../../../impl/context.impl';
 import { IAppJSON, ISubpackages, IWebpack } from '../../../interfaces'
+import { compile } from '../webpack-loaders/ifelse-loader';
 import * as fs from 'fs'
 import * as path from 'path'
 import * as utils from '../../../common/utils';
@@ -33,15 +34,17 @@ class Entry {
     return requires.join('\n');
   }
   private getAppJSON (): IAppJSON {
-    const ctx = this.ctx
+    const ctx = this.ctx;
+    const { app, type } = ctx.opts;
     let appPath = path.resolve(ctx.cwd, 'app.json');
-    if (ctx.opts.app) {
-      const targetAppPath = path.resolve(ctx.cwd, `app.${ctx.opts.app}.json`);
+    if (app) {
+      const targetAppPath = path.resolve(ctx.cwd, `app.${app}.json`);
       if (fs.existsSync(targetAppPath)) {
         appPath = targetAppPath;
       }
     }
-    const appJson = fs.readFileSync(appPath!, 'utf8');
+    let appJson = fs.readFileSync(appPath!, 'utf8');
+    appJson = compile(appJson, { fileType: 'json', app, type }); // 条件编译处理一下app.json
     return JSON.parse(appJson);
   }
 

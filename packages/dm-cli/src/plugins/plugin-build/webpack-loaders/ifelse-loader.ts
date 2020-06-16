@@ -7,9 +7,10 @@
  */
 
 import * as fs from 'fs';
+import * as vm from 'vm'
 import log from '../../../common/log';
 
-import { IWebpackCompilerExt, IWebpack } from '../../../interfaces';
+import { IWebpackCompilerExt, IWebpack, ILooseObject } from '../../../interfaces';
 
  interface IIfElseOpts{
   /** 文件类型，json、js、css、wxss、html、wxml */
@@ -25,7 +26,7 @@ import { IWebpackCompilerExt, IWebpack } from '../../../interfaces';
  * @param {String} code 源码内容
  * @param {String} fileType 源码类型：js\css\wxss\wxs\wxml\html
  */
-function parseOthers (code: string, opts: IIfElseOpts): string {
+function compileOthers (code: string, opts: IIfElseOpts): string {
   const { fileType, app, type } = opts;
   let annotationStart = '\\/\\*';
   let annotationEnd = '\\*\\/';
@@ -81,36 +82,38 @@ function parseOthers (code: string, opts: IIfElseOpts): string {
 
 /**
  * JSON文件条件编译
+ * {
+    "navigationBarTitleText": "首页",
+    "wxaif(type=='qqxcx')navigationStyle": "custom"
+   }
  * @param code json文件内容
  * @param app app参数值
  */
-function parseJSON (code: string, app: string): string {
+function compileJSON (code: string, opts: IIfElseOpts): string {
+  const { app, type } = opts;
+  const context = { app, type };
+  vm.createContext(context);
   const json = JSON.parse(code);
-  if (app) {
-    for (const key in json) {
-      if (key.indexOf(`.${app}`) > 0) {
-        // 先遍历到带后缀的属性了
-        const normalKey = key.replace(`.${app}`, '');
-        if (json.hasOwnProperty(key)) {
-          json[normalKey] = json[key]; // 不管normalKey存不存在，都覆盖了
-          delete json[key];
+  const ifelseReg = /^dmif\((.+)\)/
+  const deepCompile = (target: ILooseObject): void => {
+    for (const key in target) {
+      if (ifelseReg.test(key)) {
+        const script = new vm.Script(RegExp.$1);
+        if (script.runInContext(context)) { // 表达式为真时,去除表达式，新增原始key
+          const normalKey = key.replace(ifelseReg, '');
+          target[normalKey] = target[key];
+          if (toString.call(target[normalKey]) === '[object Object]') { // 新添加的key还有子属性
+            deepCompile(target[normalKey])
+          }
         }
-      } else {
-        const appKey = `${key}.${app}`;
-        if (json.hasOwnProperty(key) && json.hasOwnProperty(appKey)) {
-          json[key] = json[appKey];
-          delete json[appKey];
-        }
+        delete target[key];
+      } else if (toString.call(target[key]) === '[object Object]') {
+        deepCompile(target[key])
       }
     }
   }
 
-  // 删除其他app的属性。TODO 直接去掉带后缀的属性不是很稳妥
-  for (const key in json) {
-    if (/\.\w+$/.test(key)) {
-      delete json[key];
-    }
-  }
+  deepCompile(json);
   return JSON.stringify(json);
 }
 
@@ -147,7 +150,7 @@ function compile (code: string, opts: IIfElseOpts): string {
   opts.type = opts.type || 'wxxcx';
   opts.app = opts.app || '';
 
-  return opts.fileType === 'json' ? parseJSON(code, opts.app) : parseOthers(code, opts)
+  return opts.fileType === 'json' ? compileJSON(code, opts) : compileOthers(code, opts)
 }
 
 const exportFun = function (this: IWebpack.loader.LoaderContext, content: string): string {
