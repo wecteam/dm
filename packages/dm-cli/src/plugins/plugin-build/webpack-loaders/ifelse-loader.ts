@@ -102,12 +102,12 @@ function compileJSON (code: string, opts: IIfElseOpts): string {
         if (script.runInContext(context)) { // 表达式为真时,去除表达式，新增原始key
           const normalKey = key.replace(ifelseReg, '');
           target[normalKey] = target[key];
-          if (toString.call(target[normalKey]) === '[object Object]') { // 新添加的key还有子属性
+          if (typeof target[normalKey] === 'object') { // 新添加的key还有子属性,对象和数组都考虑
             deepCompile(target[normalKey])
           }
         }
         delete target[key];
-      } else if (toString.call(target[key]) === '[object Object]') {
+      } else if (typeof target[key] === 'object') {
         deepCompile(target[key])
       }
     }
