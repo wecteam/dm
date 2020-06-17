@@ -83,7 +83,8 @@ Options:
 
 * 参数 --output.build|-d 指定命令生成的目标目录，默认为当前项目的平级目录 dm build 即：../dm build，可使用绝对路径，使用相对路径时，参照路径为 CLI 执行目录。  
 `dm build -d "../../dm build"`，
-> 与参数 --app 同时使用时，会在目标目录后加上附加 -{app} 作为区分，如 dm build -d '../../dm build -a b 生成的目录为 dm build-b
+> 与参数 --app 同时使用时，会在目标目录后加上附加 -{app} 作为区分，如 dm build -d ../../dm build -a b 生成的目录为 dm-build-b
+> 与参数 --type 同时使用时，会在目标目录后加上附加 -{type} 作为区分，如 dm build -d ../../dm build -a b -t h5 生成的目录为 dm-build-b-h5
 
 * 参数 --release|-r  发布模式，可进行文件压缩、文件修改等操作。 可选用 @wecteam/dm-plugin-minify 插件进行压缩。
 `dm build -r`

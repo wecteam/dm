@@ -200,6 +200,9 @@ export class Context {
     if (this.opts.app) {
       distPath += `-${this.opts.app}`;
     }
+    if (this.opts.type) {
+      distPath += `-${this.opts.type}`;
+    }
     return distPath;
   }
 
