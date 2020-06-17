@@ -101,7 +101,7 @@ describe('build', () => {
       // await build(opts);
       await execPromise(`node "${path.resolve(__dirname, '../../bin/dm-build')}" -a b -t h5 -d "${dist}" --cwd "${appDir}"`);
 
-      dist = path.resolve(appDir, '../dist/dm-build-app-b')
+      dist = path.resolve(appDir, '../dist/dm-build-app-b-h5')
       // 检查目录
       expect(fs.existsSync(dist)).toBeTruthy();
 
