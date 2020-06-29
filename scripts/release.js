@@ -61,6 +61,7 @@ const run = async () => {
     };
 
     const version = require('../lerna.json').version;
+    await exec('git add CHANGELOG.md', { cwd });
     await exec(`git commit -m "docs(changelog): ${version}"`, { cwd });
     logSuccess('commit');
 
