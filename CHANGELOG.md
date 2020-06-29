@@ -1,3 +1,13 @@
+<a name="1.0.3"></a>
+# [1.0.3](http://github.com/wecteam/dm/compare/v1.0.2...v1.0.3) (2020-06-29)
+
+
+### Bug Fixes
+
+* **dm-cli:** help信息错误 ([86f96a4](http://github.com/wecteam/dm/commit/86f96a4))
+
+
+
 <a name="1.0.1"></a>
 #  1.0.1(2020-06-29)
 
