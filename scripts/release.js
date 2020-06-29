@@ -51,10 +51,6 @@ const run = async () => {
     await exec(`npm run build`, { cwd });
     logSuccess('编译');
 
-    // 使用lerna发布
-    await exec('npm run release:lerna', { cwd });
-    logSuccess('发布到npm');
-
     // 生成日志:拉取上一次tag到现在的提交信息
     await exec('npm run changelog', { cwd }); /** @todo 版本号处理 */
 
@@ -63,6 +59,10 @@ const run = async () => {
     if (fixChangelog === 'yes') {
       logSuccess('生成日志');
     };
+
+    // 使用lerna发布
+    await exec('npm run release:lerna', { cwd });
+    logSuccess('发布到npm');
 
     const version = require('../lerna.json').version;
     await exec(`git commit -m "docs(changelog): ${version}"`, { cwd });

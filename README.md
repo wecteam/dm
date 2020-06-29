@@ -1,8 +1,6 @@
 dm-cli
 ====
-集 gulp 工作流、文件(函数）依赖分析、npm 包分析及下载、npm 构建为一体的小程序 CLI 工具  
-> 为什么要使用 dm-cli ? 详见[小程序CLI设计](docs/FEATURE-DESIGN.md)
-
+用于前端项目的脚手架，内置一套集 gulp 工作流、文件(函数）依赖分析、npm 包分析及下载、npm 构建为一体的小程序开发插件
 
 ## 安装
 `npm install -g @wecteam/dm-cli`
