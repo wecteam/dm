@@ -1,6 +1,6 @@
 {
   "name": "@wecteam/dm-plugin-jscpd",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -9,11 +9,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "peerDependencies":{
-    "@wecteam/dm-cli":"1.0.0"
+  "peerDependencies": {
+    "@wecteam/dm-cli": "1.0.0"
   },
-  "devDependencies":{
-    "@wecteam/dm-cli":"1.0.0"
+  "devDependencies": {
+    "@wecteam/dm-cli": "^1.0.1"
   },
   "dependencies": {
     "jscpd": "^2.0.15",
