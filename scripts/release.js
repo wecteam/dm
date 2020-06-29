@@ -60,21 +60,21 @@ const run = async () => {
       logSuccess('生成日志');
     };
 
-    // 使用lerna发布
-    await exec('npm run release:lerna', { cwd });
-    logSuccess('发布到npm');
-
     const version = require('../lerna.json').version;
     await exec(`git commit -m "docs(changelog): ${version}"`, { cwd });
     logSuccess('commit');
 
-    // 打tag
-    await exec(`git tag v${version} -am ${version}`, { cwd });
-    logSuccess(`tag：v${version}`);
+    // 使用lerna发布
+    await exec('npm run release:lerna', { cwd });
+    logSuccess('发布到npm');
 
-    // 以下两步骤可能由于网络问题失败，若出错，手动再执行一次
-    await exec('git push --follow-tags', { cwd }); // 推送commit和tags
-    logSuccess('push');
+    // // 打tag
+    // await exec(`git tag v${version} -am ${version}`, { cwd });
+    // logSuccess(`tag：v${version}`);
+
+    // // 以下两步骤可能由于网络问题失败，若出错，手动再执行一次
+    // await exec('git push --follow-tags', { cwd }); // 推送commit和tags
+    // logSuccess('push');
   } catch (error) {
     console.error(chalk.red(error))
   }
