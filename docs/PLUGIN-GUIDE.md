@@ -1,7 +1,7 @@
 ## 插件开发指南
 如果现有 CLI 功能不满足你的需求，dm-cli 提供一套完整的 插件机制，通过它可以：修改命令执行流程、修改内置webpack配置、动态注册命令行参数，从而完成你的个性化需求。
 ### 插件设计
-![install-error-msb4132](../assets/plugin-guide.png)
+![plugin-guide](https://img12.360buyimg.com/img/s1890x1129_jfs/t1/111414/31/10790/359766/5ef17a4aE037a05e0/2da84d929113a0f5.png)
 
 设计解读：
 1. dm-cli 提供了一套 CLI 子命令，包括：build、init、audit、preview 等。后续会提供其他子命令。
