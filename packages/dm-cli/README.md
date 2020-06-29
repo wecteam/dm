@@ -1,17 +1,17 @@
 dm-cli
 ====
-用于前端项目的脚手架，内置一套集 gulp 工作流、文件(函数）依赖分析、npm 包分析及下载、npm 构建为一体的小程序开发插件
+用于前端项目的脚手架，内置了一套完整的用于小程序开发的插件，包含文件(函数)依赖分析、智能分包、条件编译、项目审计、打包上传等功能，旨在提升小程序开发效率及质量。
 
 ## 安装
 `npm install -g @wecteam/dm-cli`
 
 
 ## ChangeLog
-详见[ChangeLog](CHANGELOG.md)
+详见[ChangeLog](../../CHANGELOG.md)
 
 ## 加入开发
-* [开发指引](CONTRIBUTING.md)  
-* [插件开发指南](docs/PLUGIN-GUIDE.md)
+* [开发指引](../../ONTRIBUTING.md)  
+* [插件开发指南](../../docs/PLUGIN-GUIDE.md)
 
 ## 使用说明
 `dm`查看子命令说明
@@ -63,10 +63,10 @@ Options:
 `dm build -p pages/seckill/index/index --tabbar` 
 
 
-* 参数 --app|-a 条件编译，用于同一个工程下存在多个 app 情况，app 参数用于指定要编译哪个 app。
+* 参数 --app|-a 条件编译，用于同一个工程下存在多个 app 情况，app 参数用于指定要编译哪个 app。  
 `dm build -a b` 
 
-* 参数 --type|-t 条件编译，用于同一个工程下存在多端同构的代码。 参数用于指定要编译哪个场景。
+* 参数 --type|-t 条件编译，用于同一个工程下存在多端同构的代码。 参数用于指定要编译哪个场景。  
 `dm build -t h5`  
 
 * 参数 --open|-o 自动启动小程序开发者工具加载编译生成目录(dm build)。  
@@ -84,7 +84,7 @@ Options:
 > 与参数 --app 同时使用时，会在目标目录后加上附加 -{app} 作为区分，如 dm build -d ../../dm build -a b 生成的目录为 dm-build-b
 > 与参数 --type 同时使用时，会在目标目录后加上附加 -{type} 作为区分，如 dm build -d ../../dm build -a b -t h5 生成的目录为 dm-build-b-h5
 
-* 参数 --release|-r  发布模式，可进行文件压缩、文件修改等操作。 可选用 @wecteam/dm-plugin-minify 插件进行压缩。
+* 参数 --release|-r  发布模式，可进行文件压缩、文件修改等操作。 可选用 @wecteam/dm-plugin-minify 插件进行压缩。  
 `dm build -r`
 
 * 参数 --version|-v  结合-r参数一起使用，指定版本号，一般用于发布。   
@@ -177,7 +177,7 @@ dm-cli 对 npm 的支持基于官方提供的能力[npm支持](https://developer
 
 
 ### dm-cli编译npm流程
-1、`检查npm包` 检查 package.json 中指定的版本号与当前 node_modules 中安装的包版本是否匹配，若不匹配，则会自动安装。若提前安装好了，此步骤将跳过。
+1、`检查npm包` 检查 package.json 中指定的版本号与当前 node_modules 中安装的包版本是否匹配，若不匹配，则会自动安装。若提前安装好了，此步骤将跳过。  
 2、`npm包适配` 对部分三端同构的基础库进行小程序端适配。  
 3、`构建npm` 调用微信开发者工具CLI执行`构建npm`，将当前项目依赖的npm包转成 `miniprogram_npm` 目录。若已经构建过了，此步骤将跳过。
 > 若构建npm步骤报错，请确保你当前的配置是否有指定正确的微信cli路径，详见本文档wxcli参数说明，建议使用 `dm config` 进行配置。
