@@ -18,7 +18,7 @@ program
   .command('preview', '预览小程序，生成二维码').alias('p')
   .command('audit', '项目审计').alias('a')
   .command('config <cmd>', '全局配置').alias('c')
-  .command('upload', '全局配置').alias('u')
+  .command('upload', '上传').alias('u')
   .parse(process.argv)
 
 // 命令校验
