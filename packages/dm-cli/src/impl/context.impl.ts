@@ -36,7 +36,8 @@ class Opts {
         audit: path.resolve(cwd, '../dm-audit')
       },
       npm: {
-        maxRefer: 3
+        maxRefer: 3,
+        registry: 'http://registry.npmjs.org/'
       },
       plugins: [
         [require.resolve('../plugins/plugin-build/index'), {}], // 内置插件-编译相关，包含各基本文件类型的loader及依赖分析插件
