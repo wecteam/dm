@@ -7,11 +7,11 @@ dm-cli
 
 
 ## ChangeLog
-详见[ChangeLog](../../CHANGELOG.md)
+详见[ChangeLog](https://github.com/wecteam/dm/blob/master/CHANGELOG.md)
 
 ## 加入开发
-* [开发指引](../../ONTRIBUTING.md)  
-* [插件开发指南](../../docs/PLUGIN-GUIDE.md)
+* [开发指引](https://github.com/wecteam/dm/blob/master/CONTRIBUTING.md)  
+* [插件开发指南](https://github.com/wecteam/dm/blob/master/docs/PLUGIN-GUIDE.md)
 
 ## 使用说明
 `dm`查看子命令说明
