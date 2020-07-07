@@ -1,3 +1,13 @@
+<a name="1.0.4"></a>
+# [1.0.4](http://github.com/wecteam/dm/compare/v1.0.3...v1.0.4) (2020-07-07)
+
+
+### Bug Fixes
+
+* **dm-cli:** npm源默认指定为官方源 ([c61ec46](http://github.com/wecteam/dm/commit/c61ec46))
+
+
+
 <a name="1.0.3"></a>
 # [1.0.3](http://github.com/wecteam/dm/compare/v1.0.2...v1.0.3) (2020-06-29)
 
