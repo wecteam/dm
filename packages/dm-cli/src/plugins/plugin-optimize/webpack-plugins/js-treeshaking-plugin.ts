@@ -30,6 +30,7 @@ class JsTreeshakingPlugin {
     })
   }
   private treeshaking (WPModule: IWebpackModule, code: string): string {
+    if (!WPModule) return code; // 生成的NPM包资源没有经过webpack构建，没有WPModule
     const providedExports: boolean|string[] = WPModule.buildMeta.providedExports || [];
     const usedExports = WPModule.usedExports;
     if (!Array.isArray(usedExports) || !Array.isArray(providedExports)) return code;
