@@ -1,12 +1,12 @@
 {
-  "version": "1.0.4",
+  "version": "1.0.5",
   "npmClient": "npm",
   "packages": [
     "packages/*"
   ],
   "command": {
     "publish": {
-      "allowBranch":"master",
+      "allowBranch": "master",
       "conventionalCommits": true,
       "exact": true,
       "message": "chore(release): publish %s"
