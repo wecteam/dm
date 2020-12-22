@@ -7,7 +7,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as semver from 'semver'
 import * as util from 'util';
-import { IContext } from '../../interfaces';
+import { IContext, ILooseObject } from '../../interfaces';
 const execPromise = util.promisify(exec);
 
 /**
@@ -15,14 +15,17 @@ const execPromise = util.promisify(exec);
    * @param prjRoot 项目根目录
    * @param dependencies 依赖的包
    */
-function checkNpmVersion (prjRoot: string, dependencies: Record<string, string>): Record<string, string> {
+function checkNpmVersion (prjRoot: string, dependencies: Record<string, string>): ILooseObject {
   log.log('检查npm包匹配情况');
+  const npmInfo: ILooseObject = {}
   const shouldInstall: Record<string, string> = {}
+  let lastNpmMtime = 0;
   for (const [npmName, npmVersion] of Object.entries(dependencies)) {
     const curPackageJSONPath = path.resolve(prjRoot, 'node_modules', ...npmName.split('/'), 'package.json');
     if (!fs.existsSync(curPackageJSONPath)) { // 没有安装npm包
       shouldInstall[npmName] = npmVersion as string;
     } else {
+      lastNpmMtime = Math.max(lastNpmMtime, +new Date(fs.statSync(curPackageJSONPath).mtime))
       const curPackageJSON = JSON.parse(fs.readFileSync(curPackageJSONPath, 'utf8'));
       const curVersion = curPackageJSON.version;
       if (semver.ltr(curVersion, npmVersion as string) || semver.gtr(curVersion, npmVersion as string)) { // 版本不匹配
@@ -30,8 +33,9 @@ function checkNpmVersion (prjRoot: string, dependencies: Record<string, string>)
       }
     }
   }
-
-  return shouldInstall;
+  npmInfo.shouldInstall = shouldInstall;
+  npmInfo.lastNpmMtime = lastNpmMtime;
+  return npmInfo;
 }
 
 function adaptNpm (root: string): void {
@@ -55,9 +59,11 @@ function adaptNpm (root: string): void {
       const pkgJsonPath = path.resolve(basePkg, `package.json`);
       // eslint-disable-next-line
       const pkgJson = require(pkgJsonPath);
-      pkgJson.main = adaptFileName;
-      fs.writeFileSync(pkgJsonPath, JSON.stringify(pkgJson, null, 2))
-      log.log(`基础库小程序适配`, path.basename(root) + pkgJsonPath.replace(root, '').replace(path.sep + 'package.json', ''))
+      if (pkgJson.main !== adaptFileName) {
+        pkgJson.main = adaptFileName;
+        fs.writeFileSync(pkgJsonPath, JSON.stringify(pkgJson, null, 2))
+        log.log(`基础库小程序适配`, path.basename(root) + pkgJsonPath.replace(root, '').replace(path.sep + 'package.json', ''))
+      }
     } else {
       // log.log(`当前包${basePkg}不需要适配`)
     }
@@ -78,7 +84,7 @@ async function checkNpm (ctx: IContext): Promise<boolean> {
   }
 
   // 1、检查项目package.json的依赖与node_modules匹配情况
-  const shouldInstall = checkNpmVersion(cwd, dependencies);
+  const { shouldInstall, lastNpmMtime } = checkNpmVersion(cwd, dependencies);
 
   // 2、安装不匹配的包
   const shouldUpate = !!Object.keys(shouldInstall).length
@@ -96,11 +102,28 @@ async function checkNpm (ctx: IContext): Promise<boolean> {
   // 4、检查是否需要构建npm
   const shouldBuild = (): boolean => {
     const miniprogramDir = path.resolve(cwd, 'miniprogram_npm');
-    if (!fs.existsSync(miniprogramDir)) return true;
 
+    // 没有miniprogram_npm目录
+    if (!fs.existsSync(miniprogramDir)) {
+      log.debug('miniprogram_npm不存在，需要构建npm')
+      return true;
+    }
+
+    // miniprogram_npm 目录缺少 npm 包
+    let lastMiniNpmMtime = 0
     for (const npmName of Object.keys(dependencies)) {
       const miniNpmPath = path.resolve(miniprogramDir, ...npmName.split('/'), 'index.js');
-      if (!fs.existsSync(miniNpmPath)) return true;
+      if (!fs.existsSync(miniNpmPath)) {
+        log.debug(`miniprogram_npm缺少npm：${npmName} 需要重新构建npm`);
+        return true;
+      }
+      lastMiniNpmMtime = Math.max(lastMiniNpmMtime, +new Date(fs.statSync(miniNpmPath).mtime))
+    }
+
+    // miniprogram_npm 的修改时间 晚于 node_modules 修改时间
+    if (lastMiniNpmMtime < lastNpmMtime) {
+      log.debug(`node_modules下npm包修改时间 ${lastNpmMtime} 比miniprogram_npm下npm包修改时间 ${lastMiniNpmMtime} 晚，需要重新构建npm`);
+      return true;
     }
     return false
   }
