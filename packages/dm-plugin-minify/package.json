@@ -1,6 +1,6 @@
 {
   "name": "@wecteam/dm-plugin-minify",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -19,7 +19,7 @@
     "@wecteam/dm-cli": "1.0.0"
   },
   "devDependencies": {
-    "@wecteam/dm-cli": "1.0.5"
+    "@wecteam/dm-cli": "1.0.6"
   },
   "dependencies": {
     "gulp-imagemin": "^4.1.0",

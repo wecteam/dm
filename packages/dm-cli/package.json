@@ -1,6 +1,6 @@
 {
   "name": "@wecteam/dm-cli",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "小程序开发工具",
   "main": "dist/index",
   "bin": {
