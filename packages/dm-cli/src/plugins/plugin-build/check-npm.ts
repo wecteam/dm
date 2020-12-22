@@ -86,7 +86,7 @@ async function checkNpm (ctx: IContext): Promise<boolean> {
     const npmInfo = Object.entries(shouldInstall).map(([npmName, npmVersion]) => `${npmName}@${npmVersion}`).join(' ');
     log.log(chalk.yellow(`需要更新包：${npmInfo}`));
 
-    const installLog = await execPromise(`npm install ${npmInfo}  --registry=${ctx.opts.npm!.registry} --no-save`, { cwd });
+    const installLog = await execPromise(`npm install ${npmInfo}  --registry=${ctx.opts.npm!.registry} -E`, { cwd });
     log.log('更新完成：\n', installLog.stdout);
   }
 
